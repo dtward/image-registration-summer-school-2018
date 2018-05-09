@@ -66,15 +66,15 @@ def plot_grid(X0, X1, rstride=1, cstride=1, ax=None, **kwargs):
     '''
     if ax is None: ax = plt.gca()
     # some defaults
-    defaultargs = {
+    args = {
         'color':'k'
     }
-    kwargs.update(defaultargs)
+    args.update(kwargs)
     # plot rows
     for i in range(0, X0.shape[0], rstride):
         ax.plot(X0[i,:], X1[i,:], **kwargs)
-    if i < X0.shape[0]-1: ax.plot(X0[-1,:], X1[-1,:], **kwargs)
+    if i < X0.shape[0]-1: ax.plot(X0[-1,:], X1[-1,:], **args)
     # plot columns
     for j in range(0,X0.shape[1],cstride):
         ax.plot(X0[:,j], X1[:,j], **kwargs)
-    if i < X0.shape[1]-1: ax.plot(X0[-1,:], X1[-1,:], **kwargs)
+    if j < X0.shape[1]-1: ax.plot(X0[:,-1], X1[:,-1], **args)
