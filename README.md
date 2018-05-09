@@ -14,21 +14,29 @@ tensorflow intsallation intsructions are good for getting to this point
 
 Now run
 
+```bash
 virtualenv -p python3 ~/image_registration_summer_school_python
+```
 
 Now activate your virtual environment
 
+```bash
 source ~/image_registration_summer_school_python/bin/activate
+```
 
 Now double check you are using the right python
 
+```bash
 which python
+```
 
 the output should point to ~/image_registration_summer_school
 
 Now use pip to install packages
 
+```bash
 pip install ipython jupyter numpy matplotlib nibabel
+```
 
 Now run the notebook server
 
