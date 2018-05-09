@@ -1,6 +1,12 @@
 # image-registration-summer-school-2018
 Python notebooks and data for learning about image registration.  Hosted at a summer school
 
+## How to get the repository?
+
+Make sure you have git installed
+
+https://github.com/dtward/image-registration-summer-school-2018.git
+
 ## How to install jupyter
 Make sure you have python3 and virtualenv installed
 
