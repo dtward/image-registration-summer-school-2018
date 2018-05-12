@@ -78,3 +78,56 @@ def plot_grid(X0, X1, rstride=1, cstride=1, ax=None, **kwargs):
     for j in range(0,X0.shape[1],cstride):
         ax.plot(X0[:,j], X1[:,j], **args)
     if j < X0.shape[1]-1: ax.plot(X0[:,-1], X1[:,-1], **args)
+        
+def downsample_image(I,down):
+    ''' downsample an image by averaging
+    down should either be a triple, or a single number
+    '''
+    try:
+        # check if its an iterable with 3 elements
+        d0 = down[2]
+    except TypeError:
+        down = [down,down,down]
+    down = np.array(down)
+    nx = I.shape
+    nxd = nx//down
+    Id = np.zeros(nxd)
+    for i in range(down[0]):
+        for j in range(down[1]):
+            for k in range(down[2]):
+                Id += I[i:nxd[0]*down[0]:down[0],j:nxd[1]*down[1]:down[1],k:nxd[2]*down[2]:down[2]]
+    Id = Id/down[0]/down[1]/down[2]
+    return Id
+
+def sample_points_from_affine(X0,X1,X2,A):
+    ''' From affine matrix A, 
+    and meshgrid domain X0, X1, X2,
+    construct sample points used to interpolate an image at to apply deformation
+    '''
+    B = np.linalg.inv(A)
+    # get the sample points by matrix multiplication
+    X0s = B[0,0]*X0 + B[0,1]*X1 + B[0,2]*X2 + B[0,3]
+    X1s = B[1,0]*X0 + B[1,1]*X1 + B[1,2]*X2 + B[1,3]
+    X2s = B[2,0]*X0 + B[2,1]*X1 + B[2,2]*X2 + B[2,3]
+    return X0s,X1s,X2s  
+    
+# simple function for drawing 3 slices
+def imshow_slices(x0,x1,x2,I,axlist=None,**kwargs):
+    ''' Draw three slices through the middle of an image'''
+    if axlist is None:
+        f,axlist = plt.subplots(1,3)    
+    args = {'cmap':'gray',
+            'aspect':'equal',
+            'interpolation':'none'}
+    args.update(kwargs)
+    
+    h0 = axlist[0].imshow(np.squeeze(I[:,:,I.shape[2]//2]),extent=(x1[0],x1[-1],x0[0],x0[-1]),**args)
+    axlist[0].set_xlabel('x1')
+    axlist[0].set_ylabel('x0')
+    h1 = axlist[1].imshow(np.squeeze(I[:,I.shape[1]//2,:]),extent=(x2[0],x2[-1],x0[0],x0[-1]),**args)
+    axlist[1].set_xlabel('x2')
+    axlist[1].set_ylabel('x0')
+    h2 = axlist[2].imshow(np.squeeze(I[I.shape[0]//2,:,:]),extent=(x2[0],x2[-1],x1[0],x1[-1]),**args)
+    axlist[2].set_xlabel('x2')
+    axlist[2].set_ylabel('x1')
+    return [h0,h1,h2]    
