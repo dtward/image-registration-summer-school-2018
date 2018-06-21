@@ -35,7 +35,7 @@ the output should point to ~/image_registration_summer_school
 Now use pip to install packages
 
 ```bash
-pip install ipython jupyter numpy matplotlib nibabel
+pip install ipython jupyter numpy scipy matplotlib nibabel
 ```
 
 Now run the notebook server
